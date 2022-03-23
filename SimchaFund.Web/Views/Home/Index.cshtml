@@ -1,0 +1,91 @@
+﻿ @model SimchasViewModel
+<div class="container">
+    <main role="main" class="pb-3" style="margin-top: 60px;">
+        @if(!String.IsNullOrEmpty(Model.Message))
+        { 
+
+        <div class="container">
+            <main role="main" class="pb-3" style="margin-top: 60px;">
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @Model.Message
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                </div>
+                </main>
+                </div>
+           }   
+
+                <div class="header">
+
+
+                    <h1>Simchas</h1>
+                </div>
+                <div class="row header">
+                    <div class="col-md-4">
+                        <button class="btn btn btn-danger" id="new-simcha">New Simcha</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>Contributions</th>
+                            <th>Simcha Name</th>
+                            <th>Contributor Count</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                        </tr>
+                        @foreach (Simcha s in Model.Simchas)
+                        {
+                            <tr>
+                                <td> <a class="btn btn-primary" href="/home/contributions?simchaid=@s.Id">Contributions</a></td>
+                                <td>@s.Name</td>
+                                <td>@s.Count/@Model.ContributorAmount</td>
+                                <td>@(s.Total !=null ? @s.Total : 0)</td>
+                                <td>@s.Date.ToShortDateString()</td>
+                            </tr>
+
+                        }
+
+                    </table>
+                </div>
+
+                <div class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">New Simcha</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="/home/AddSimcha">
+                                    <div class="form-group">
+                                        <label>Simcha Name</label>
+                                        <input class="form-control" name="name" placeholder="Simcha Name" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <input type="date" name="date" class="form-control" id="datepicker">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-primary" name="commit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+        
+
+            </main>
+        </div>
+@section Scripts{ 
+
+    <script src="~/js/Add.js"></script>
+}
+

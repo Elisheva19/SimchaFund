@@ -1,0 +1,78 @@
+﻿@model ContributionsForSimchaViewModel
+<div class="container">
+    <main role="main" class="pb-3" style="margin-top: 60px;">
+
+
+        <div class="header">
+            <h1>
+             Contributors for the @Model.Name
+            </h1>
+        </div>
+        <div class="table-responsive">
+            <form method="POST" action="/home/updatecontributions">
+                <input type="hidden" name="simchaId" value="@Model.SimchaId" />
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Contribute</th>
+                        <th>Name</th>
+                        <th>Balance</th>
+                        <th>Always Include</th>
+                        <th>Amount</th>
+                    </tr>
+                    @{ int Counter = 0;}
+                    @foreach (Contributor c in Model.Contributors)
+                    {
+
+                        <tr>
+                            <td>
+                                <input type="hidden" name="contributors[@Counter].Id" value="@c.Id" />
+
+                                @if (c.Include || c.AlwaysInclude)
+                                {
+                                    @*div class="toggle btn btn-primary" data-toggle="toggle" role="button" style="width: 61.6px; height: 38px;">
+                <input class="contribute" type="checkbox" name="contributors[@Counter].Include" checked="checked" value="true" />
+                <div class="toggle-group">
+                    <label for="" class="btn btn-primary toggle-on">Yes</label>
+                    <label for="" class="btn btn-light toggle-off">No</label>
+                    <span class="toggle-handle btn btn-light"></span>
+                </div>
+            </div>*@
+                                    <input class="contribute" type="checkbox" name="contributors[@Counter].Include" checked="checked" value="true" />
+
+                                }
+                                else
+                                {
+                                    @*<div class="toggle btn btn-light off" data-toggle="toggle" role="button" style="width: 61.6px; height: 38px;">
+                <input class="contribute" type="checkbox" name="contributors[@Counter].Include" value="true" />
+                <div class="toggle-group">
+                    <label for="" class="btn btn-primary toggle-on">Yes</label>
+                    <label for="" class="btn btn-light toggle-off">No</label>
+                    <span class="toggle-handle btn btn-light"></span>
+                </div>
+            </div>*@
+                                    <input class="contribute" type="checkbox" name="contributors[@Counter].Include" value="true" />
+
+                                }
+                            </td>
+                            <td>@c.FirstName @c.LastName</td>
+                            <td>@c.Balance</td>
+                            <td style="text-align: center;">
+                                <span class="@(c.AlwaysInclude ? "oi oi-check" : " " )"></span>
+                            </td>
+                            <td>
+                                <input type="text" name="contributors[@Counter].Amount" class="form-control" value="@c.Amount" />
+                            </td>
+                            @{Counter++;}
+                        </tr>
+                        
+                    }
+                </table>
+                <div style="text-align:center;">
+                    <button class="btn-lg btn-danger">Update</button>
+                </div>
+            </form>
+        </div>
+
+
+    </main>
+</div>
